@@ -1,0 +1,2 @@
+#!/bin/bash
+cat /ericsson/tor/data/.enm-history

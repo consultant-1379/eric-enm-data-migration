@@ -1,0 +1,142 @@
+## eric-enm-data-migration image version
+
+global:
+  pullSecret:
+  registry:
+    url: armdocker.rnd.ericsson.se
+  ingress:
+    enmHost:
+  enmProperties:
+    postgres_service:
+  persistentVolumeClaim:
+    storageClass:
+  timezone:
+  rwx:
+    storageClass:
+productInfo:
+  # R-State of the product. R State should match helm chart version (3.1.0 -> R2A)
+  # To automate it when packaging the helm chart rstate can be generated
+  # and below value replaced with correct R-State
+  rstate: RSTATE
+  productionDate: PRODUCTION_DATE
+  revision: VERSION
+  number: CXC Placeholder
+images:
+  eric-enm-data-migration:
+    name: eric-enm-data-migration
+    tag: VERSION
+imageCredentials:
+  pullSecret:
+  repoPath: proj-enm
+  pullPolicy: Always
+  registry:
+    url:
+service:
+  name: data-migration
+  annotations: {}
+  labels: {}
+securityPolicy:
+  rolename: data-migration
+persistentVolumeClaim:
+  size: 50Gi
+# Ingress
+ingress:
+  enabled: false
+## Configure resource requests and limits
+resources:
+  requests:
+    enabled: true
+    memory: 2048Mi
+    cpu: 300m
+  limits:
+    enabled: true
+    memory: 4096Mi
+    cpu: 1000m
+# ENM specific init container(ENM image)
+enmInitContainerEnv:
+  enabled: false
+# startupProbe Health Check configuration.
+probes:
+  container:
+    startupProbe:
+      enabled: true
+      command: /ericsson/enm_healthcheck/bin/enm_healthcheck.py
+      arguments: --exec_agents
+      initialDelaySeconds: 10
+      timeoutSeconds: 30
+      periodSeconds: 30
+      failureThreshold: 5
+    livenessProbe:
+      enabled: true
+      command: /ericsson/enm_healthcheck/bin/enm_healthcheck.py
+      arguments: --exec_agents
+      initialDelaySeconds: 30
+      timeoutSeconds: 30
+      periodSeconds: 30
+      failureThreshold: 2
+    readinessProbe:
+      enabled: true
+      command: /ericsson/enm_healthcheck/bin/enm_healthcheck.py
+      arguments: --exec_agents
+      initialDelaySeconds: 10
+      periodSeconds: 30
+      timeoutSeconds: 30
+      failureThreshold: 2
+startupProbe:
+  enabled: true
+  command: /ericsson/enm_healthcheck/bin/enm_healthcheck.py
+  arguments: --exec_agents
+  initialDelaySeconds: 10
+  timeoutSeconds: 30
+  periodSeconds: 30
+  failureThreshold: 5
+# LivenessProbe Health Check configuration.
+livenessProbe:
+  enabled: true
+  command: /ericsson/enm_healthcheck/bin/enm_healthcheck.py
+  arguments: --exec_agents
+  initialDelaySeconds: 30
+  timeoutSeconds: 30
+  periodSeconds: 30
+  failureThreshold: 2
+readinessProbe:
+  enabled: true
+  command: /ericsson/enm_healthcheck/bin/enm_healthcheck.py
+  arguments: --exec_agents
+  initialDelaySeconds: 10
+  periodSeconds: 30
+  timeoutSeconds: 30
+  failureThreshold: 2
+# Extra Annotations to be added to pod
+podAnnotations: {}
+## Tolerations for pod assignment
+tolerations:
+- key: node.kubernetes.io/not-ready
+  operator: Exists
+  effect: NoExecute
+  tolerationSeconds: 300
+- key: node.kubernetes.io/unreachable
+  operator: Exists
+  effect: NoExecute
+  tolerationSeconds: 300
+## Affinity for pod assignment
+affinity: {}
+# Constrain which nodes your pod is eligible to be scheduled on
+nodeAffinity: {}
+priorityClassName: ""
+## Node selector
+nodeSelector: {}
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 0
+securityContext:
+  data-migration:
+    allowPrivilegeEscalation: true
+    privileged: true
+    readOnlyRootFilesystem: false
+    runAsNonRoot: false
+    capabilities:
+      drop:
+      - all

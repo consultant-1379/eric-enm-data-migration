@@ -1,0 +1,18 @@
+- name: dumps
+  persistentVolumeClaim:
+     claimName: hcdumps
+- name: podinfo
+  downwardAPI:
+    items:
+      - path: "labels"
+        fieldRef:
+          fieldPath: metadata.labels
+- name: gp
+  configMap:
+      name: gpcloud
+- name: data
+  persistentVolumeClaim:
+      claimName: data
+- name: enm-version-configmap
+  configMap:
+    name: eric-enm-version-configmap

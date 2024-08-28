@@ -1,0 +1,14 @@
+{{- template "eric-enm-common-helmchart-library.deployment" (list . "eric-enm-data-migration.deployment") -}}
+{{- define "eric-enm-data-migration.deployment" -}}
+spec:
+  replicas: 0
+  template:
+    metadata:
+      labels:
+        kubeVersion: "{{ .Capabilities.KubeVersion.Version | regexFind "v[0-9]+.[0-9]+.[0-9]+" }}"
+        kubeMajorVersion: "{{ .Capabilities.KubeVersion.Major | regexFind "[0-9]+" }}"
+        kubeMinorVersion: "{{ .Capabilities.KubeVersion.Minor | regexFind "[0-9]+" }}"
+{{- include "eric-enm-common-helmchart-library.metadata_app_labels" .| nindent 8 }}
+      annotations:
+{{- include "eric-enm-common-helmchart-library.product-info" .| nindent 8 }}
+{{- end -}}

@@ -1,0 +1,13 @@
+- name: dumps
+  mountPath: /ericsson/enm/dumps
+- name: podinfo
+  mountPath: /etc/podinfo
+- name: gp
+  mountPath: /gp
+- name: data
+  mountPath: /ericsson/tor/data
+- name: migration-data
+  mountPath: /ericsson/migration-data
+- name: enm-version-configmap
+  mountPath: /enm
+  readOnly: true

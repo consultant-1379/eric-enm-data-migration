@@ -1,0 +1,12 @@
+INIT=true
+NAME=eric-enm-data-migration
+REQUESTS=true
+REQUESTS_LIST=1024Mi
+LIMITS=true
+LIMITS_LIST=1024Mi
+DEP=true
+SVC=data-migration
+IMAGE=true
+IMAGE_LIST=sles
+USER=true
+USER_LIST=root,root

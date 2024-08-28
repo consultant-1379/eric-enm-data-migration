@@ -1,0 +1,22 @@
+# Eclipse files
+.project
+
+# Merge files
+*.orig
+
+# IntelliJ files
+*.iml
+*.idea
+
+# venv files
+env/*
+venv/*
+
+# Common helm lib
+chart/eric-enm-data-migration/charts/*
+
+# Coverage reports
+.coverage
+*.pyc
+*.html
+coverage_result/

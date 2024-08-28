@@ -1,0 +1,2 @@
+#!/bin/bash
+bash /opt/ericsson/lcs/bin/log_collection.bsh "$@"

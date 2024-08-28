@@ -1,0 +1,3 @@
+#!/bin/bash
+NEWLINE='\n'
+echo -e "${NEWLINE}##### ENM Version : $(cat /enm/.enm-version) #####${NEWLINE}"
